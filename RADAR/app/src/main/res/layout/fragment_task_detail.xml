@@ -1,11 +1,63 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:clipToPadding="false" android:paddingBottom="16dp">
-<LinearLayout  android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingHorizontal="20dp" android:paddingTop="16dp" android:orientation="vertical">
-    <TextView android:id="@+id/title" android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Radar.Title" />
-    <TextView android:id="@+id/info" android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Radar.Panel" />
-    <TextView android:id="@+id/description" android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Radar.Body" />
-    <ImageView android:id="@+id/photo" android:layout_width="match_parent" android:layout_height="200dp" android:contentDescription="@string/ui_foto_anexada_a_tarefa" android:scaleType="fitCenter" android:visibility="gone" />
-    <Button android:id="@+id/toggle" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/ui_concluir_tarefa" />
-    <Button android:id="@+id/edit" android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Widget.Material3.Button.OutlinedButton" android:text="@string/ui_editar_tarefa" />
-    <Button android:id="@+id/delete" android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Widget.Material3.Button.OutlinedButton" android:text="@string/ui_excluir_tarefa" />
-</LinearLayout>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:paddingBottom="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="16dp">
+
+        <TextView
+            android:id="@+id/titulo"
+            style="@style/Radar.Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/informacoes"
+            style="@style/Radar.Body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="12dp"
+            android:lineSpacingExtra="2dp" />
+
+        <TextView
+            android:id="@+id/descricao"
+            style="@style/Radar.Body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/foto"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:contentDescription="@string/ui_foto_anexada_a_tarefa"
+            android:scaleType="fitCenter"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/alterar_conclusao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ui_concluir_tarefa" />
+
+        <Button
+            android:id="@+id/editar"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ui_editar_tarefa" />
+
+        <Button
+            android:id="@+id/excluir"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ui_excluir_tarefa" />
+    </LinearLayout>
 </ScrollView>

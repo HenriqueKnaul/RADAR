@@ -1,43 +1,43 @@
 package br.udesc.radar.ui.painel
 
-import br.udesc.radar.data.repository.AcademicRepository
-import br.udesc.radar.ui.tarefas.TaskActions
-import br.udesc.radar.ui.tarefas.TaskItem
-import br.udesc.radar.ui.tarefas.displayAt
-import br.udesc.radar.util.AcademicDates
+import br.udesc.radar.data.repositorio.RepositorioAcademico
+import br.udesc.radar.ui.tarefas.AcoesTarefa
+import br.udesc.radar.ui.tarefas.ItemTarefa
+import br.udesc.radar.ui.tarefas.apresentarEm
+import br.udesc.radar.util.DatasAcademicas
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.update
 
-data class Dashboard(
+data class ResumoPainel(
     val total: Int,
-    val pending: Int,
-    val overdue: Int,
-    val completed: Int,
-    val upcoming: List<TaskItem>,
-    val revision: Int,
+    val pendentes: Int,
+    val atrasadas: Int,
+    val concluidas: Int,
+    val proximas: List<ItemTarefa>,
+    val revisao: Int,
 )
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class PainelViewModel(academic: AcademicRepository) : TaskActions(academic) {
-    private val revision = MutableStateFlow(0)
-    val dashboard = revision.flatMapLatest { request ->
-        combine(academic.tasks(), AcademicDates.clock()) { rows, now ->
-            val upcomingLimit = AcademicDates.epoch(AcademicDates.local(now).plusDays(7))
-            val open = rows.filterNot { it.task.completed }
-            val overdue = open.count { it.task.deadline < now }
-            Dashboard(
-                rows.size,
-                open.size - overdue,
-                overdue,
-                rows.size - open.size,
-                open.filter { it.task.deadline in now..upcomingLimit }.map { it.displayAt(now) },
-                request,
+class PainelViewModel(repositorioAcademico: RepositorioAcademico) : AcoesTarefa(repositorioAcademico) {
+    private val revisao = MutableStateFlow(0)
+    val resumo = revisao.flatMapLatest { solicitacao ->
+        combine(repositorioAcademico.tarefas(), DatasAcademicas.relogio()) { registros, agora ->
+            val limiteProximas = DatasAcademicas.paraMillis(DatasAcademicas.paraDataLocal(agora).plusDays(7))
+            val emAberto = registros.filterNot { it.tarefa.concluida }
+            val atrasadas = emAberto.count { it.tarefa.prazo < agora }
+            ResumoPainel(
+                registros.size,
+                emAberto.size - atrasadas,
+                atrasadas,
+                registros.size - emAberto.size,
+                emAberto.filter { it.tarefa.prazo in agora..limiteProximas }.map { it.apresentarEm(agora) },
+                solicitacao,
             )
         }
     }
 
-    fun refresh() = revision.update { it + 1 }
+    fun atualizarPainel() = revisao.update { it + 1 }
 }

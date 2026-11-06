@@ -9,58 +9,58 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.navigation.fragment.findNavController
 import br.udesc.radar.R
 import br.udesc.radar.databinding.FragmentDisciplineFormBinding
-import br.udesc.radar.ui.message
-import br.udesc.radar.ui.observe
-import br.udesc.radar.ui.options
+import br.udesc.radar.ui.avisar
+import br.udesc.radar.ui.definirOpcoes
+import br.udesc.radar.ui.exibirMensagem
+import br.udesc.radar.ui.observar
 import br.udesc.radar.ui.radar
-import br.udesc.radar.ui.showMessage
 import kotlinx.coroutines.flow.take
 
 class DisciplineFormFragment : Fragment(R.layout.fragment_discipline_form) {
-    private val viewModel by viewModels<DisciplineFormViewModel> {
+    private val modelo by viewModels<FormularioDisciplinaViewModel> {
         viewModelFactory {
-            initializer { DisciplineFormViewModel(radar.academic, requireArguments().getLong("id")) }
+            initializer { FormularioDisciplinaViewModel(radar.repositorioAcademico, requireArguments().getLong("id")) }
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val binding = FragmentDisciplineFormBinding.bind(view)
-        val editing = viewModel.id != 0L
-        var ready = !editing
-        var initial = savedInstanceState == null
-        binding.heading.setText(if (editing) R.string.ui_editar_disciplina else R.string.ui_nova_disciplina)
-        binding.color.options(DisciplineColor.entries.map { it.label })
-        binding.save.isEnabled = ready
-        if (editing) {
-            observe(viewModel.discipline.take(1)) { discipline ->
-                if (discipline == null) {
-                    message("Disciplina não encontrada.")
+    override fun onViewCreated(visao: View, estadoAnterior: Bundle?) {
+        val vinculo = FragmentDisciplineFormBinding.bind(visao)
+        val editando = modelo.id != 0L
+        var pronto = !editando
+        var inicial = estadoAnterior == null
+        vinculo.heading.setText(if (editando) R.string.ui_editar_disciplina else R.string.ui_nova_disciplina)
+        vinculo.color.definirOpcoes(CorDisciplina.entries.map { it.rotulo })
+        vinculo.save.isEnabled = pronto
+        if (editando) {
+            observar(modelo.disciplina.take(1)) { disciplina ->
+                if (disciplina == null) {
+                    avisar("Disciplina não encontrada.")
                     findNavController().navigateUp()
-                    return@observe
+                    return@observar
                 }
-                if (initial) {
-                    binding.name.setText(discipline.name)
-                    binding.teacher.setText(discipline.teacher)
-                    val color = DisciplineColor.entries.indexOfFirst { it.argb == discipline.color }
-                    binding.color.setSelection(color.coerceAtLeast(0))
-                    initial = false
+                if (inicial) {
+                    vinculo.name.setText(disciplina.nome)
+                    vinculo.teacher.setText(disciplina.professor)
+                    val cor = CorDisciplina.entries.indexOfFirst { it.argb == disciplina.cor }
+                    vinculo.color.setSelection(cor.coerceAtLeast(0))
+                    inicial = false
                 }
-                ready = true
-                binding.save.isEnabled = !viewModel.saveState.value.saving
+                pronto = true
+                vinculo.save.isEnabled = !modelo.estadoSalvamento.value.salvando
             }
         }
-        binding.save.setOnClickListener {
-            viewModel.save(
-                binding.name.text.toString(),
-                binding.teacher.text.toString(),
-                DisciplineColor.entries[binding.color.selectedItemPosition.coerceAtLeast(0)],
+        vinculo.save.setOnClickListener {
+            modelo.salvar(
+                vinculo.name.text.toString(),
+                vinculo.teacher.text.toString(),
+                CorDisciplina.entries[vinculo.color.selectedItemPosition.coerceAtLeast(0)],
             )
         }
-        observe(viewModel.saveState) { state ->
-            binding.save.isEnabled = ready && !state.saving && !state.saved
-            binding.error.showMessage(state.error)
-            if (state.saved) {
-                message("Disciplina salva.")
+        observar(modelo.estadoSalvamento) { estado ->
+            vinculo.save.isEnabled = pronto && !estado.salvando && !estado.salvo
+            vinculo.error.exibirMensagem(estado.erro)
+            if (estado.salvo) {
+                avisar("Disciplina salva.")
                 findNavController().navigateUp()
             }
         }

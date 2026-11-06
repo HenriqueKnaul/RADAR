@@ -52,7 +52,7 @@
     <string name="ui_seu_radar_academico">Seu radar acadêmico</string>
     <string name="ui_sobre_o_radar">Sobre o RADAR</string>
     <string name="ui_tarefas">Tarefas</string>
-    <string name="ui_task_info">%1$s · %2$s\n%3$s\nPrioridade %4$s · %5$s</string>
+    <string name="ui_informacoes_tarefa">%1$s · %2$s\n%3$s\nPrioridade %4$s · %5$s</string>
     <string name="ui_tipo">Tipo</string>
     <string name="ui_titulo">Título *</string>
     <string name="ui_voltar">Voltar</string>

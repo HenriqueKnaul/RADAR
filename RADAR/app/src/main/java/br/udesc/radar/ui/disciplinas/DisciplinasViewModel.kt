@@ -1,8 +1,8 @@
 package br.udesc.radar.ui.disciplinas
 
 import androidx.lifecycle.ViewModel
-import br.udesc.radar.data.repository.AcademicRepository
+import br.udesc.radar.data.repositorio.RepositorioAcademico
 
-class DisciplinasViewModel(academic: AcademicRepository) : ViewModel() {
-    val disciplines = academic.disciplines()
+class DisciplinasViewModel(repositorioAcademico: RepositorioAcademico) : ViewModel() {
+    val disciplinas = repositorioAcademico.disciplinas()
 }

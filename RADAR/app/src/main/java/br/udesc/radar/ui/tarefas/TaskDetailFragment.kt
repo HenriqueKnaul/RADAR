@@ -11,54 +11,54 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.navigation.fragment.findNavController
 import br.udesc.radar.R
 import br.udesc.radar.databinding.FragmentTaskDetailBinding
-import br.udesc.radar.ui.message
-import br.udesc.radar.ui.observe
+import br.udesc.radar.ui.avisar
+import br.udesc.radar.ui.exibirMensagem
+import br.udesc.radar.ui.observar
 import br.udesc.radar.ui.radar
-import br.udesc.radar.ui.showMessage
-import br.udesc.radar.util.AcademicDates
+import br.udesc.radar.util.DatasAcademicas
 import coil.load
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class TaskDetailFragment : Fragment(R.layout.fragment_task_detail) {
-    private val viewModel by viewModels<TaskDetailViewModel> {
-        viewModelFactory { initializer { TaskDetailViewModel(radar.academic, requireArguments().getLong("id")) } }
+    private val modelo by viewModels<DetalheTarefaViewModel> {
+        viewModelFactory { initializer { DetalheTarefaViewModel(radar.repositorioAcademico, requireArguments().getLong("id")) } }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val binding = FragmentTaskDetailBinding.bind(view)
-        val nav = findNavController()
-        binding.toggle.isEnabled = false
-        binding.edit.isEnabled = false
-        binding.delete.isEnabled = false
-        observe(viewModel.task) { item ->
+    override fun onViewCreated(visao: View, estadoAnterior: Bundle?) {
+        val vinculo = FragmentTaskDetailBinding.bind(visao)
+        val navegacao = findNavController()
+        vinculo.alterarConclusao.isEnabled = false
+        vinculo.editar.isEnabled = false
+        vinculo.excluir.isEnabled = false
+        observar(modelo.tarefa) { item ->
             if (item == null) {
-                nav.navigateUp()
-                return@observe
+                navegacao.navigateUp()
+                return@observar
             }
-            val task = item.row.task
-            binding.title.text = task.title
-            binding.info.text = getString(
-                R.string.ui_task_info, item.row.disciplineName, task.type,
-                AcademicDates.format(task.deadline), task.priority.lowercase(), item.status,
+            val tarefa = item.registro.tarefa
+            vinculo.titulo.text = tarefa.titulo
+            vinculo.informacoes.text = getString(
+                R.string.ui_informacoes_tarefa, item.registro.nomeDisciplina, tarefa.tipo,
+                DatasAcademicas.formatar(tarefa.prazo), tarefa.prioridade.lowercase(), item.situacao,
             )
-            binding.description.showMessage(task.description.takeIf { it.isNotBlank() })
-            binding.photo.isVisible = task.photo != null
-            binding.photo.load(task.photo?.let(viewModel::photoFile))
-            binding.toggle.setText(if (task.completed) R.string.ui_reabrir_tarefa else R.string.ui_concluir_tarefa)
-            binding.toggle.isEnabled = true
-            binding.edit.isEnabled = true
-            binding.delete.isEnabled = true
-            binding.toggle.setOnClickListener { viewModel.toggle(task.id, !task.completed) }
+            vinculo.descricao.exibirMensagem(tarefa.descricao.takeIf { it.isNotBlank() })
+            vinculo.foto.isVisible = tarefa.foto != null
+            vinculo.foto.load(tarefa.foto?.let(modelo::arquivoFoto))
+            vinculo.alterarConclusao.setText(if (tarefa.concluida) R.string.ui_reabrir_tarefa else R.string.ui_concluir_tarefa)
+            vinculo.alterarConclusao.isEnabled = true
+            vinculo.editar.isEnabled = true
+            vinculo.excluir.isEnabled = true
+            vinculo.alterarConclusao.setOnClickListener { modelo.alterarConclusao(tarefa.id, !tarefa.concluida) }
         }
-        observe(viewModel.errors, ::message)
-        observe(viewModel.deleteErrors, ::message)
-        binding.edit.setOnClickListener { nav.navigate(R.id.taskFormFragment, bundleOf("id" to viewModel.id)) }
-        binding.delete.setOnClickListener {
+        observar(modelo.erros, ::avisar)
+        observar(modelo.errosExclusao, ::avisar)
+        vinculo.editar.setOnClickListener { navegacao.navigate(R.id.taskFormFragment, bundleOf("id" to modelo.id)) }
+        vinculo.excluir.setOnClickListener {
             MaterialAlertDialogBuilder(requireContext())
                 .setTitle("Excluir tarefa?")
                 .setMessage("A tarefa e a foto anexada serão excluídas.")
                 .setNegativeButton("Cancelar", null)
-                .setPositiveButton("Excluir") { _, _ -> viewModel.delete() }
+                .setPositiveButton("Excluir") { _, _ -> modelo.excluir() }
                 .show()
         }
     }
