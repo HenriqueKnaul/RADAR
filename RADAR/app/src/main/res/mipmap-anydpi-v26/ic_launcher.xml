@@ -1,0 +1,8 @@
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@android:color/white" />
+    <foreground>
+        <inset
+            android:drawable="@drawable/logo_radar"
+            android:inset="13%" />
+    </foreground>
+</adaptive-icon>

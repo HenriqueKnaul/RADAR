@@ -1,5 +1,6 @@
 package br.udesc.radar.ui.disciplinas
 
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -23,7 +24,7 @@ class DisciplineAdapter(private val open: (Long) -> Unit) :
         with(holder.binding) {
             name.text = discipline.name
             teacher.text = discipline.teacher.ifBlank { "Professor(a) não informado(a)" }
-            color.setBackgroundColor(discipline.color)
+            color.backgroundTintList = ColorStateList.valueOf(discipline.color)
             root.setOnClickListener { open(discipline.id) }
         }
     }

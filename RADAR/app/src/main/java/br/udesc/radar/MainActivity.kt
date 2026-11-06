@@ -36,9 +36,11 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNav.setupWithNavController(nav)
         binding.toolbar.setupWithNavController(nav, AppBarConfiguration(tabs))
         nav.addOnDestinationChangedListener { _, destination, _ ->
-            binding.bottomNav.isVisible = destination.id in tabs
-            if (destination.id in tabs) {
-                binding.toolbar.title = getString(R.string.app_name)
+            val isTab = destination.id in tabs
+            binding.bottomNav.isVisible = isTab
+            binding.headerLogo.isVisible = isTab
+            if (isTab) {
+                binding.toolbar.title = null
             } else {
                 binding.toolbar.setNavigationContentDescription(R.string.ui_voltar)
             }
