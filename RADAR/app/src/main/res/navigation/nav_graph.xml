@@ -1,0 +1,29 @@
+<navigation xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_graph" app:startDestination="@id/painelFragment">
+    <fragment android:id="@+id/painelFragment"
+        android:name="br.udesc.radar.ui.painel.PainelFragment" android:label="@string/aba_painel" />
+    <fragment android:id="@+id/disciplinasFragment"
+        android:name="br.udesc.radar.ui.disciplinas.DisciplinasFragment" android:label="@string/aba_disciplinas" />
+    <fragment android:id="@+id/tarefasFragment"
+        android:name="br.udesc.radar.ui.tarefas.TarefasFragment" android:label="@string/aba_tarefas" />
+    <fragment android:id="@+id/ajustesFragment"
+        android:name="br.udesc.radar.ui.ajustes.AjustesFragment" android:label="@string/aba_ajustes" />
+    <fragment android:id="@+id/disciplineFormFragment"
+        android:name="br.udesc.radar.ui.disciplinas.DisciplineFormFragment" android:label="@string/ui_rotulo_disciplina">
+        <argument android:name="id" app:argType="long" android:defaultValue="0L" />
+    </fragment>
+    <fragment android:id="@+id/disciplineDetailFragment"
+        android:name="br.udesc.radar.ui.disciplinas.DisciplineDetailFragment" android:label="@string/ui_detalhe_da_disciplina">
+        <argument android:name="id" app:argType="long" android:defaultValue="0L" />
+    </fragment>
+    <fragment android:id="@+id/taskFormFragment"
+        android:name="br.udesc.radar.ui.tarefas.TaskFormFragment" android:label="@string/ui_formulario_de_tarefa">
+        <argument android:name="id" app:argType="long" android:defaultValue="0L" />
+        <argument android:name="disciplineId" app:argType="long" android:defaultValue="0L" />
+    </fragment>
+    <fragment android:id="@+id/taskDetailFragment"
+        android:name="br.udesc.radar.ui.tarefas.TaskDetailFragment" android:label="@string/ui_detalhe_da_tarefa">
+        <argument android:name="id" app:argType="long" android:defaultValue="0L" />
+    </fragment>
+    <fragment android:id="@+id/holidaysFragment"
+        android:name="br.udesc.radar.ui.feriados.HolidaysFragment" android:label="@string/ui_feriados_nacionais" />
+</navigation>

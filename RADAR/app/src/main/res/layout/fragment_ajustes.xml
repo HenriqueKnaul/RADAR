@@ -1,0 +1,13 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:clipToPadding="false" android:paddingBottom="16dp">
+<LinearLayout  android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingHorizontal="20dp" android:paddingTop="16dp" android:orientation="vertical">
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Radar.Title" android:text="@string/ui_ajustes" />
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Radar.Subtitle" android:text="@string/ui_personalize_o_uso_do_radar" />
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Radar.Section" android:text="@string/ui_atalho_de_atualizacao" />
+    <com.google.android.material.materialswitch.MaterialSwitch android:id="@+id/shake" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="56dp" android:text="@string/ui_agitar_para_atualizar_o_painel" />
+    <TextView android:id="@+id/sensorInfo" android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Radar.Body" />
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Radar.Section" android:text="@string/ui_planejamento" />
+    <Button android:id="@+id/holidays" android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Widget.Material3.Button.OutlinedButton" android:text="@string/ui_consultar_feriados_nacionais" />
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Radar.Section" android:text="@string/ui_sobre_o_radar" />
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Radar.Body" android:text="@string/ui_organizador_academico_udesc_disciplinas_tarefas_e" />
+</LinearLayout>
+</ScrollView>

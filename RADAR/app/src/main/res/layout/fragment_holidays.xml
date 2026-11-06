@@ -1,0 +1,10 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:paddingHorizontal="20dp" android:paddingTop="16dp" android:orientation="vertical">
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Radar.Title" android:text="@string/ui_feriados_nacionais" />
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Radar.Subtitle" android:text="@string/ui_consulte_as_datas_da_brasilapi_antes" />
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Radar.Label" android:labelFor="@+id/year" android:text="@string/ui_ano_da_consulta" />
+    <Spinner android:id="@+id/year" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="48dp" />
+    <Button android:id="@+id/reload" android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Widget.Material3.Button.OutlinedButton" android:text="@string/ui_atualizar_feriados" />
+    <ProgressBar android:id="@+id/progress" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_horizontal" android:visibility="gone" />
+    <TextView android:id="@+id/message" android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Radar.Empty" android:visibility="gone" />
+    <androidx.recyclerview.widget.RecyclerView android:id="@+id/holidayList" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:clipToPadding="false" android:paddingBottom="12dp" />
+</LinearLayout>

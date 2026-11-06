@@ -1,0 +1,29 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:clipToPadding="false" android:paddingBottom="16dp">
+<LinearLayout  android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingHorizontal="20dp" android:paddingTop="16dp" android:orientation="vertical">
+    <TextView android:id="@+id/heading" android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Radar.Title" />
+    <TextView android:id="@+id/empty" android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Radar.Empty" android:visibility="gone" />
+    <LinearLayout android:id="@+id/form" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:visibility="gone">
+    <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:hint="@string/ui_titulo">
+        <com.google.android.material.textfield.TextInputEditText android:id="@+id/title" android:layout_width="match_parent" android:layout_height="wrap_content" android:maxLength="100" android:inputType="textCapSentences" />
+    </com.google.android.material.textfield.TextInputLayout>
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Radar.Label" android:labelFor="@+id/discipline" android:text="@string/ui_disciplina" />
+    <Spinner android:id="@+id/discipline" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="48dp" />
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Radar.Label" android:labelFor="@+id/type" android:text="@string/ui_tipo" />
+    <Spinner android:id="@+id/type" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="48dp" />
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Radar.Label" android:labelFor="@+id/priority" android:text="@string/ui_prioridade" />
+    <Spinner android:id="@+id/priority" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="48dp" />
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Radar.Label" android:text="@string/ui_prazo_de_entrega" />
+    <Button android:id="@+id/date" android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Widget.Material3.Button.OutlinedButton" android:text="@string/ui_selecionar_data" />
+    <Button android:id="@+id/time" android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Widget.Material3.Button.OutlinedButton" android:text="@string/ui_selecionar_horario" />
+    <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:hint="@string/ui_descricao">
+        <com.google.android.material.textfield.TextInputEditText android:id="@+id/description" android:layout_width="match_parent" android:layout_height="wrap_content" android:maxLength="1500" android:inputType="textMultiLine|textCapSentences" />
+    </com.google.android.material.textfield.TextInputLayout>
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Radar.Section" android:text="@string/ui_foto_da_tarefa" />
+    <ImageView android:id="@+id/photo" android:layout_width="match_parent" android:layout_height="200dp" android:contentDescription="@string/ui_foto_anexada_a_tarefa" android:scaleType="fitCenter" android:visibility="gone" />
+    <Button android:id="@+id/camera" android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Widget.Material3.Button.OutlinedButton" android:text="@string/ui_fotografar_anotacao" />
+    <Button android:id="@+id/removePhoto" android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Widget.Material3.Button.OutlinedButton" android:text="@string/ui_remover_foto" android:visibility="gone" />
+    <TextView android:id="@+id/error" android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Radar.Error" />
+    <Button android:id="@+id/save" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/ui_salvar_tarefa" />
+    </LinearLayout>
+</LinearLayout>
+</ScrollView>

@@ -1,0 +1,48 @@
+<resources>
+    <style name="Theme.Radar" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/radar_primary</item>
+        <item name="colorOnPrimary">@color/radar_on_primary</item>
+        <item name="colorPrimaryContainer">@color/radar_primary_container</item>
+        <item name="colorOnPrimaryContainer">@color/radar_on_primary_container</item>
+    </style>
+    <style name="Radar" />
+    <style name="Radar.Title">
+        <item name="android:textAppearance">?attr/textAppearanceHeadlineMedium</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+    <style name="Radar.Subtitle" parent="Radar.Body">
+        <item name="android:layout_marginBottom">14dp</item>
+    </style>
+    <style name="Radar.Section" parent="Radar.RowTitle">
+        <item name="android:layout_marginTop">18dp</item>
+        <item name="android:layout_marginBottom">4dp</item>
+    </style>
+    <style name="Radar.RowTitle">
+        <item name="android:textAppearance">?attr/textAppearanceTitleMedium</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+    <style name="Radar.Body">
+        <item name="android:textAppearance">?attr/textAppearanceBodyMedium</item>
+        <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
+    </style>
+    <style name="Radar.Label" parent="Radar.Body">
+        <item name="android:layout_marginTop">6dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="Radar.Empty" parent="Radar.Body">
+        <item name="android:padding">14dp</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="Radar.Error" parent="Radar.Body">
+        <item name="android:textColor">?attr/colorError</item>
+        <item name="android:accessibilityLiveRegion">polite</item>
+    </style>
+    <style name="Radar.Panel" parent="Radar.Body">
+        <item name="android:background">@drawable/bg_panel</item>
+        <item name="android:padding">16dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:textColor">?attr/colorOnPrimaryContainer</item>
+    </style>
+</resources>

@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">RADAR</string>
+    <string name="aba_painel">Painel</string>
+    <string name="aba_disciplinas">Disciplinas</string>
+    <string name="aba_tarefas">Tarefas</string>
+    <string name="aba_ajustes">Ajustes</string>
+    <string name="shake_enabled">Com o Painel aberto, agite o celular para atualizar os indicadores.</string>
+    <string name="shake_unavailable">Este aparelho não possui acelerômetro disponível. O Painel atualiza automaticamente.</string>
+</resources>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/painelFragment"
+        android:icon="@drawable/ic_painel"
+        android:title="@string/aba_painel" />
+    <item
+        android:id="@+id/disciplinasFragment"
+        android:icon="@drawable/ic_disciplinas"
+        android:title="@string/aba_disciplinas" />
+    <item
+        android:id="@+id/tarefasFragment"
+        android:icon="@drawable/ic_tarefas"
+        android:title="@string/aba_tarefas" />
+    <item
+        android:id="@+id/ajustesFragment"
+        android:icon="@drawable/ic_ajustes"
+        android:title="@string/aba_ajustes" />
+</menu>

@@ -1,0 +1,9 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:paddingHorizontal="20dp" android:paddingTop="16dp" android:orientation="vertical">
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Radar.Title" android:text="@string/ui_seu_radar_academico" />
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Radar.Subtitle" android:text="@string/ui_acompanhe_as_atividades_e_planeje_a" />
+    <TextView android:id="@+id/summary" android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Radar.Panel" />
+    <Button android:id="@+id/holidays" android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Widget.Material3.Button.OutlinedButton" android:text="@string/ui_consultar_feriados_nacionais" />
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Radar.Section" android:text="@string/ui_proximos_7_dias" />
+    <TextView android:id="@+id/empty" android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Radar.Empty" android:visibility="gone" />
+    <androidx.recyclerview.widget.RecyclerView android:id="@+id/taskList" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:clipToPadding="false" android:paddingBottom="12dp" />
+</LinearLayout>
