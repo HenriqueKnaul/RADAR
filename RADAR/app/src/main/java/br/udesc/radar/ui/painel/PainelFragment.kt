@@ -10,42 +10,42 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.navigation.fragment.findNavController
 import br.udesc.radar.R
 import br.udesc.radar.databinding.FragmentPainelBinding
-import br.udesc.radar.ui.avisar
-import br.udesc.radar.ui.configurarLista
-import br.udesc.radar.ui.exibirMensagem
-import br.udesc.radar.ui.observar
+import br.udesc.radar.ui.message
+import br.udesc.radar.ui.observe
 import br.udesc.radar.ui.radar
-import br.udesc.radar.ui.tarefas.AdaptadorTarefas
-import br.udesc.radar.util.DetectorAgitacao
+import br.udesc.radar.ui.showMessage
+import br.udesc.radar.ui.showRows
+import br.udesc.radar.ui.tarefas.TaskAdapter
+import br.udesc.radar.util.ShakeDetector
 import com.google.android.material.snackbar.Snackbar
 
 class PainelFragment : Fragment(R.layout.fragment_painel) {
-    private val modelo by viewModels<PainelViewModel> {
-        viewModelFactory { initializer { PainelViewModel(radar.repositorioAcademico) } }
+    private val viewModel by viewModels<PainelViewModel> {
+        viewModelFactory { initializer { PainelViewModel(radar.academic) } }
     }
-    private var detectorAgitacao: DetectorAgitacao? = null
-    private var aguardandoAtualizacao = false
+    private var shakeDetector: ShakeDetector? = null
+    private var awaitingRefresh = false
 
-    override fun onViewCreated(visao: View, estadoAnterior: Bundle?) {
-        val vinculo = FragmentPainelBinding.bind(visao)
-        val adaptador = AdaptadorTarefas(
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val binding = FragmentPainelBinding.bind(view)
+        val adapter = TaskAdapter(
             { id -> findNavController().navigate(R.id.taskDetailFragment, bundleOf("id" to id)) },
-            modelo::alterarConclusao,
+            viewModel::toggle,
         )
-        vinculo.taskList.configurarLista(adaptador)
-        vinculo.holidays.setOnClickListener { findNavController().navigate(R.id.holidaysFragment) }
-        observar(modelo.erros, ::avisar)
-        observar(modelo.resumo) { resumo ->
-            vinculo.summary.text = getString(
-                R.string.ui_painel_resumo, resumo.total, resumo.pendentes, resumo.atrasadas, resumo.concluidas,
+        binding.taskList.showRows(adapter)
+        binding.holidays.setOnClickListener { findNavController().navigate(R.id.holidaysFragment) }
+        observe(viewModel.errors, ::message)
+        observe(viewModel.dashboard) { dashboard ->
+            binding.summary.text = getString(
+                R.string.ui_painel_resumo, dashboard.total, dashboard.pending, dashboard.overdue, dashboard.completed,
             )
-            adaptador.submitList(resumo.proximas)
-            vinculo.empty.exibirMensagem(
-                "Nenhuma tarefa com entrega nos próximos sete dias.".takeIf { resumo.proximas.isEmpty() },
+            adapter.submitList(dashboard.upcoming)
+            binding.empty.showMessage(
+                "Nenhuma tarefa com entrega nos próximos sete dias.".takeIf { dashboard.upcoming.isEmpty() },
             )
-            if (aguardandoAtualizacao && resumo.revisao > 0) {
-                aguardandoAtualizacao = false
-                Snackbar.make(visao, "Painel atualizado!", Snackbar.LENGTH_SHORT)
+            if (awaitingRefresh && dashboard.revision > 0) {
+                awaitingRefresh = false
+                Snackbar.make(view, "Painel atualizado!", Snackbar.LENGTH_SHORT)
                     .setAnchorView(requireActivity().findViewById(R.id.bottom_nav))
                     .show()
             }
@@ -54,23 +54,23 @@ class PainelFragment : Fragment(R.layout.fragment_painel) {
 
     override fun onResume() {
         super.onResume()
-        if (radar.preferencias.getBoolean("shake_enabled", true)) {
-            val detector = detectorAgitacao ?: DetectorAgitacao(requireContext()) {
-                aguardandoAtualizacao = true
-                modelo.atualizarPainel()
-            }.also { detectorAgitacao = it }
-            detector.iniciar()
+        if (radar.preferences.getBoolean("shake_enabled", true)) {
+            val detector = shakeDetector ?: ShakeDetector(requireContext()) {
+                awaitingRefresh = true
+                viewModel.refresh()
+            }.also { shakeDetector = it }
+            detector.start()
         }
     }
 
     override fun onPause() {
-        detectorAgitacao?.parar()
-        aguardandoAtualizacao = false
+        shakeDetector?.stop()
+        awaitingRefresh = false
         super.onPause()
     }
 
     override fun onDestroyView() {
-        detectorAgitacao = null
+        shakeDetector = null
         super.onDestroyView()
     }
 }

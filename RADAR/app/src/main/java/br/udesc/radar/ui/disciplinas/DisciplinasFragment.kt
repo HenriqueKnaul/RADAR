@@ -10,26 +10,26 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.navigation.fragment.findNavController
 import br.udesc.radar.R
 import br.udesc.radar.databinding.FragmentDisciplinasBinding
-import br.udesc.radar.ui.configurarLista
-import br.udesc.radar.ui.exibirMensagem
-import br.udesc.radar.ui.observar
+import br.udesc.radar.ui.observe
 import br.udesc.radar.ui.radar
+import br.udesc.radar.ui.showMessage
+import br.udesc.radar.ui.showRows
 
 class DisciplinasFragment : Fragment(R.layout.fragment_disciplinas) {
-    private val modelo by viewModels<DisciplinasViewModel> {
-        viewModelFactory { initializer { DisciplinasViewModel(radar.repositorioAcademico) } }
+    private val viewModel by viewModels<DisciplinasViewModel> {
+        viewModelFactory { initializer { DisciplinasViewModel(radar.academic) } }
     }
 
-    override fun onViewCreated(visao: View, estadoAnterior: Bundle?) {
-        val vinculo = FragmentDisciplinasBinding.bind(visao)
-        val adaptador = AdaptadorDisciplinas { id ->
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val binding = FragmentDisciplinasBinding.bind(view)
+        val adapter = DisciplineAdapter { id ->
             findNavController().navigate(R.id.disciplineDetailFragment, bundleOf("id" to id))
         }
-        vinculo.disciplineList.configurarLista(adaptador)
-        vinculo.add.setOnClickListener { findNavController().navigate(R.id.disciplineFormFragment) }
-        observar(modelo.disciplinas) { registros ->
-            adaptador.submitList(registros)
-            vinculo.empty.exibirMensagem("Cadastre sua primeira disciplina para começar.".takeIf { registros.isEmpty() })
+        binding.disciplineList.showRows(adapter)
+        binding.add.setOnClickListener { findNavController().navigate(R.id.disciplineFormFragment) }
+        observe(viewModel.disciplines) { rows ->
+            adapter.submitList(rows)
+            binding.empty.showMessage("Cadastre sua primeira disciplina para começar.".takeIf { rows.isEmpty() })
         }
     }
 }

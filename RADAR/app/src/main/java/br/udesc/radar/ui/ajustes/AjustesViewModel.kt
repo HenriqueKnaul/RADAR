@@ -4,10 +4,10 @@ import android.content.SharedPreferences
 import androidx.core.content.edit
 import androidx.lifecycle.ViewModel
 
-class AjustesViewModel(private val preferencias: SharedPreferences) : ViewModel() {
-    val agitacaoAtiva get() = preferencias.getBoolean("shake_enabled", true)
+class AjustesViewModel(private val preferences: SharedPreferences) : ViewModel() {
+    val shakeEnabled get() = preferences.getBoolean("shake_enabled", true)
 
-    fun definirAgitacaoAtiva(ativo: Boolean) {
-        preferencias.edit { putBoolean("shake_enabled", ativo) }
+    fun setShakeEnabled(enabled: Boolean) {
+        preferences.edit { putBoolean("shake_enabled", enabled) }
     }
 }

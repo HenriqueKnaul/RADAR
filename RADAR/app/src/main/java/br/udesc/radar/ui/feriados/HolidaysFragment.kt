@@ -10,31 +10,31 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import br.udesc.radar.R
 import br.udesc.radar.databinding.FragmentHolidaysBinding
-import br.udesc.radar.ui.aoSelecionar
-import br.udesc.radar.ui.configurarLista
-import br.udesc.radar.ui.definirOpcoes
-import br.udesc.radar.ui.exibirMensagem
-import br.udesc.radar.ui.observar
+import br.udesc.radar.ui.observe
+import br.udesc.radar.ui.onSelected
+import br.udesc.radar.ui.options
 import br.udesc.radar.ui.radar
+import br.udesc.radar.ui.showMessage
+import br.udesc.radar.ui.showRows
 
 class HolidaysFragment : Fragment(R.layout.fragment_holidays) {
-    private val modelo by viewModels<FeriadosViewModel> {
-        viewModelFactory { initializer { FeriadosViewModel(radar.feriados, createSavedStateHandle()) } }
+    private val viewModel by viewModels<HolidaysViewModel> {
+        viewModelFactory { initializer { HolidaysViewModel(radar.holidays, createSavedStateHandle()) } }
     }
 
-    override fun onViewCreated(visao: View, estadoAnterior: Bundle?) {
-        val vinculo = FragmentHolidaysBinding.bind(visao)
-        val adaptador = AdaptadorFeriados()
-        vinculo.holidayList.configurarLista(adaptador)
-        vinculo.year.definirOpcoes(modelo.anos.map(Int::toString), modelo.anos.indexOf(modelo.estado.value.ano))
-        vinculo.year.aoSelecionar { modelo.selecionarAno(modelo.anos[it]) }
-        vinculo.reload.setOnClickListener { modelo.recarregar() }
-        observar(modelo.estado) { estado ->
-            vinculo.progress.isVisible = estado.carregando
-            vinculo.reload.isEnabled = !estado.carregando
-            vinculo.message.exibirMensagem(estado.erro ?: "Nenhum feriado foi retornado para este ano."
-                .takeIf { !estado.carregando && estado.feriados.isEmpty() })
-            adaptador.submitList(estado.feriados)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val binding = FragmentHolidaysBinding.bind(view)
+        val adapter = HolidayAdapter()
+        binding.holidayList.showRows(adapter)
+        binding.year.options(viewModel.years.map(Int::toString), viewModel.years.indexOf(viewModel.state.value.year))
+        binding.year.onSelected { viewModel.selectYear(viewModel.years[it]) }
+        binding.reload.setOnClickListener { viewModel.reload() }
+        observe(viewModel.state) { state ->
+            binding.progress.isVisible = state.loading
+            binding.reload.isEnabled = !state.loading
+            binding.message.showMessage(state.error ?: "Nenhum feriado foi retornado para este ano."
+                .takeIf { !state.loading && state.holidays.isEmpty() })
+            adapter.submitList(state.holidays)
         }
     }
 }
