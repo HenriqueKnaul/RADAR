@@ -13,36 +13,36 @@ import androidx.navigation.ui.setupWithNavController
 import br.udesc.radar.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreate(estadoAnterior: Bundle?) {
+        super.onCreate(estadoAnterior)
         enableEdgeToEdge()
-        val binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        val vinculo = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(vinculo.root)
 
-        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { root, insets ->
-            val safe = insets.getInsets(
+        ViewCompat.setOnApplyWindowInsetsListener(vinculo.root) { conteudo, recuos ->
+            val margensSeguras = recuos.getInsets(
                 WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout()
                     or WindowInsetsCompat.Type.ime(),
             )
-            root.updatePadding(left = safe.left, top = safe.top, right = safe.right, bottom = safe.bottom)
+            conteudo.updatePadding(left = margensSeguras.left, top = margensSeguras.top, right = margensSeguras.right, bottom = margensSeguras.bottom)
             WindowInsetsCompat.CONSUMED
         }
-        ViewCompat.requestApplyInsets(binding.root)
+        ViewCompat.requestApplyInsets(vinculo.root)
 
-        val navHost = supportFragmentManager
+        val anfitriaoNavegacao = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        val nav = navHost.navController
-        val tabs = setOf(R.id.painelFragment, R.id.disciplinasFragment, R.id.tarefasFragment, R.id.ajustesFragment)
-        binding.bottomNav.setupWithNavController(nav)
-        binding.toolbar.setupWithNavController(nav, AppBarConfiguration(tabs))
-        nav.addOnDestinationChangedListener { _, destination, _ ->
-            val isTab = destination.id in tabs
-            binding.bottomNav.isVisible = isTab
-            binding.headerLogo.isVisible = isTab
-            if (isTab) {
-                binding.toolbar.title = null
+        val navegacao = anfitriaoNavegacao.navController
+        val abas = setOf(R.id.painelFragment, R.id.disciplinasFragment, R.id.tarefasFragment, R.id.ajustesFragment)
+        vinculo.bottomNav.setupWithNavController(navegacao)
+        vinculo.toolbar.setupWithNavController(navegacao, AppBarConfiguration(abas))
+        navegacao.addOnDestinationChangedListener { _, destino, _ ->
+            val ehAba = destino.id in abas
+            vinculo.bottomNav.isVisible = ehAba
+            vinculo.headerLogo.isVisible = ehAba
+            if (ehAba) {
+                vinculo.toolbar.title = null
             } else {
-                binding.toolbar.setNavigationContentDescription(R.string.ui_voltar)
+                vinculo.toolbar.setNavigationContentDescription(R.string.ui_voltar)
             }
         }
     }

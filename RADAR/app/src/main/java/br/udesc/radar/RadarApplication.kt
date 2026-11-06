@@ -3,14 +3,14 @@ package br.udesc.radar
 import android.app.Application
 import androidx.room.Room
 import br.udesc.radar.data.local.RadarDatabase
-import br.udesc.radar.data.remote.HolidayRepository
-import br.udesc.radar.data.repository.AcademicRepository
+import br.udesc.radar.data.remote.RepositorioFeriados
+import br.udesc.radar.data.repositorio.RepositorioAcademico
 
 class RadarApplication : Application() {
-    val database by lazy {
+    val banco by lazy {
         Room.databaseBuilder(this, RadarDatabase::class.java, "radar.db").build()
     }
-    val academic by lazy { AcademicRepository(database, filesDir) }
-    val holidays by lazy { HolidayRepository() }
-    val preferences by lazy { getSharedPreferences("radar_preferences", MODE_PRIVATE) }
+    val repositorioAcademico by lazy { RepositorioAcademico(banco, filesDir) }
+    val feriados by lazy { RepositorioFeriados() }
+    val preferencias by lazy { getSharedPreferences("radar_preferences", MODE_PRIVATE) }
 }

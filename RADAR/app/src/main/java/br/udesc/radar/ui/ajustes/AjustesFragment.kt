@@ -14,18 +14,18 @@ import br.udesc.radar.databinding.FragmentAjustesBinding
 import br.udesc.radar.ui.radar
 
 class AjustesFragment : Fragment(R.layout.fragment_ajustes) {
-    private val viewModel by viewModels<AjustesViewModel> {
-        viewModelFactory { initializer { AjustesViewModel(radar.preferences) } }
+    private val modelo by viewModels<AjustesViewModel> {
+        viewModelFactory { initializer { AjustesViewModel(radar.preferencias) } }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val binding = FragmentAjustesBinding.bind(view)
-        val manager = requireContext().getSystemService(SensorManager::class.java)
-        val available = manager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null
-        binding.shake.isEnabled = available
-        binding.shake.isChecked = available && viewModel.shakeEnabled
-        binding.sensorInfo.setText(if (available) R.string.shake_enabled else R.string.shake_unavailable)
-        binding.shake.setOnCheckedChangeListener { _, enabled -> viewModel.setShakeEnabled(enabled) }
-        binding.holidays.setOnClickListener { findNavController().navigate(R.id.holidaysFragment) }
+    override fun onViewCreated(visao: View, estadoAnterior: Bundle?) {
+        val vinculo = FragmentAjustesBinding.bind(visao)
+        val gerenciador = requireContext().getSystemService(SensorManager::class.java)
+        val disponivel = gerenciador.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null
+        vinculo.shake.isEnabled = disponivel
+        vinculo.shake.isChecked = disponivel && modelo.agitacaoAtiva
+        vinculo.sensorInfo.setText(if (disponivel) R.string.shake_enabled else R.string.shake_unavailable)
+        vinculo.shake.setOnCheckedChangeListener { _, ativo -> modelo.definirAgitacaoAtiva(ativo) }
+        vinculo.holidays.setOnClickListener { findNavController().navigate(R.id.holidaysFragment) }
     }
 }
