@@ -20,9 +20,11 @@ data class HolidaysState(
 )
 
 class HolidaysViewModel(private val repository: HolidayRepository, private val saved: SavedStateHandle) : ViewModel() {
-    private val currentYear = Year.now().value
-    val years = (currentYear - 1..currentYear + 1).toList()
-    private val mutableState = MutableStateFlow(HolidaysState(saved["year"] ?: currentYear))
+    val years = listOf(2026, 2027)
+    private val initialYear = saved.get<Int>("year")?.takeIf { it in years }
+        ?: Year.now().value.takeIf { it in years }
+        ?: years.first()
+    private val mutableState = MutableStateFlow(HolidaysState(initialYear))
     val state = mutableState.asStateFlow()
     private var loading: Job? = null
 
@@ -31,7 +33,7 @@ class HolidaysViewModel(private val repository: HolidayRepository, private val s
     }
 
     fun selectYear(year: Int) {
-        if (year == state.value.year) return
+        if (year !in years || year == state.value.year) return
         saved["year"] = year
         load(year)
     }
